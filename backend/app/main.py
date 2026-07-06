@@ -38,6 +38,7 @@ async def lifespan(app: FastAPI):
 
         await init_models()
         await _ensure_admin_user()
+        await _reset_camera_statuses()
     except Exception as exc:  # pragma: no cover
         logger.error(f"Database init skipped/failed: {exc}")
 
@@ -74,6 +75,24 @@ async def _ensure_admin_user() -> None:
         ))
         await session.commit()
         logger.warning("Seeded default admin/admin123 — CHANGE THIS PASSWORD.")
+
+
+async def _reset_camera_statuses() -> None:
+    """On boot no workers are running yet, so mark every camera offline.
+
+    Prevents stale 'online'/'connecting' statuses persisting across restarts
+    until the operator starts each camera again.
+    """
+    from sqlalchemy import update
+
+    from app.db.base import AsyncSessionLocal
+    from app.db.models.camera import Camera, CameraStatus
+
+    async with AsyncSessionLocal() as session:
+        await session.execute(
+            update(Camera).values(status=CameraStatus.OFFLINE, fps=0.0)
+        )
+        await session.commit()
 
 
 def create_app() -> FastAPI:
