@@ -20,13 +20,18 @@ frontend/.vite/
 *.local
 
 # ---- Models & Data (large binaries) ----
-models/*.pt
-models/*.onnx
-models/*.engine
-models/*.pth
+# Match model weights and runtime data anywhere (backend/ runs from its own CWD).
+*.pt
+*.onnx
+*.engine
+*.pth
+*.db
+*.sqlite3
 data/recordings/*
 data/snapshots/*
 data/heatmaps/*
+backend/data/
+backend/logs/
 !data/**/.gitkeep
 
 # ---- Env / Secrets ----
