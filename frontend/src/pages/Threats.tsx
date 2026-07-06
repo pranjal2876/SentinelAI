@@ -25,7 +25,8 @@ export default function Threats() {
     threatApi.list(params).then(setThreats).catch(() => {});
   };
 
-  useEffect(load, [category, severity]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => { load(); }, [category, severity]);
 
   const ack = async (id: number) => {
     await threatApi.acknowledge(id);

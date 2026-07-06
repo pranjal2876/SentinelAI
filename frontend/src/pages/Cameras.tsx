@@ -11,8 +11,15 @@ export default function Cameras() {
   const [showForm, setShowForm] = useState(false);
   const [error, setError] = useState('');
 
-  const load = () => cameraApi.list().then(setCameras).catch(() => {});
-  useEffect(load, []);
+  // Wrap in a block body so the effect returns undefined (not the fetch
+  // Promise). Passing `load` directly makes React treat the returned Promise
+  // as a cleanup function and crash when it tries to call it.
+  const load = () => {
+    cameraApi.list().then(setCameras).catch(() => {});
+  };
+  useEffect(() => {
+    load();
+  }, []);
 
   const create = async (e: React.FormEvent) => {
     e.preventDefault();
