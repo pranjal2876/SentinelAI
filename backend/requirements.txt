@@ -1,0 +1,58 @@
+# ==========================================================================
+# SentinelAI Backend — Python dependencies (Python 3.10+)
+# Install:  pip install -r requirements.txt
+# For GPU torch, see docs/INSTALLATION.md (install the CUDA wheel first).
+# ==========================================================================
+
+# ---- Web framework ----
+fastapi==0.111.0
+uvicorn[standard]==0.30.1
+python-multipart==0.0.9
+websockets==12.0
+
+# ---- Data / Validation ----
+pydantic==2.7.4
+pydantic-settings==2.3.4
+email-validator==2.2.0
+
+# ---- Auth / Security ----
+passlib[bcrypt]==1.7.4
+python-jose[cryptography]==3.3.0
+
+# ---- Database ----
+sqlalchemy[asyncio]==2.0.31
+asyncpg==0.29.0
+alembic==1.13.2
+psycopg2-binary==2.9.9        # for alembic sync migrations
+
+# ---- Cache / Event bus ----
+redis==5.0.7
+
+# ---- Computer Vision / DL ----
+ultralytics==8.2.48
+opencv-python-headless==4.10.0.84
+numpy==1.26.4
+torch==2.3.1
+torchvision==0.18.1
+scipy==1.13.1
+lap==0.4.0                    # for ByteTrack assignment
+filterpy==1.4.5               # Kalman filter for DeepSORT
+
+# ---- Classic ML / Anomaly ----
+scikit-learn==1.5.0
+joblib==1.4.2
+
+# ---- Reporting / Analytics ----
+pandas==2.2.2
+reportlab==4.2.2              # PDF reports
+openpyxl==3.1.5              # Excel export
+matplotlib==3.9.0
+
+# ---- Alerts ----
+httpx==0.27.0                # Telegram + async HTTP
+aiosmtplib==3.0.1            # async email
+
+# ---- Utilities ----
+loguru==0.7.2
+python-dotenv==1.0.1
+tenacity==8.4.2
