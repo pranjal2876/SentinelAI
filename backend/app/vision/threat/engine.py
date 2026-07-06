@@ -190,7 +190,8 @@ class ThreatEngine:
         if count >= settings.CROWD_THRESHOLD:
             # Density = people per unit area of their convex bounding region.
             pts = np.array([p.center for p in persons])
-            spread = (pts[:, 0].ptp() + 1) * (pts[:, 1].ptp() + 1)
+            # np.ptp (not ndarray.ptp) for NumPy 1.x/2.x compatibility.
+            spread = (np.ptp(pts[:, 0]) + 1) * (np.ptp(pts[:, 1]) + 1)
             density = count / (spread / (width * height) + 1e-6)
             key = "crowd:global"
             if self._ready(key, now):
