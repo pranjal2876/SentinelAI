@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  @apply bg-base-900 text-slate-200 font-sans antialiased;
+  background-image:
+    radial-gradient(circle at 15% 10%, rgba(0, 229, 255, 0.06), transparent 40%),
+    radial-gradient(circle at 85% 90%, rgba(139, 92, 246, 0.06), transparent 40%);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  @apply bg-base-800;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-base-600 rounded-full;
+}
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-base-500;
+}
+
+@layer components {
+  .card {
+    @apply bg-base-800/70 border border-base-600/50 rounded-xl backdrop-blur-sm;
+  }
+  .card-hover {
+    @apply transition-all duration-200 hover:border-accent/40 hover:shadow-glow;
+  }
+  .btn {
+    @apply inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium
+      transition-colors duration-150 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  .btn-primary {
+    @apply btn bg-accent/90 text-base-900 hover:bg-accent;
+  }
+  .btn-ghost {
+    @apply btn bg-base-700 text-slate-200 hover:bg-base-600;
+  }
+  .input {
+    @apply w-full px-3 py-2 rounded-lg bg-base-900 border border-base-600
+      focus:border-accent focus:outline-none text-slate-100 placeholder-slate-500;
+  }
+  .badge {
+    @apply inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold;
+  }
+}
