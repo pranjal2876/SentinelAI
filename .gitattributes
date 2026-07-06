@@ -1,0 +1,12 @@
+# Normalize line endings — treat text as LF in the repo.
+* text=auto eol=lf
+
+# Explicit binaries (never touch line endings)
+*.pt binary
+*.onnx binary
+*.engine binary
+*.pth binary
+*.jpg binary
+*.png binary
+*.mp4 binary
+*.zip binary
