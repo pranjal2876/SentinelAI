@@ -1,0 +1,22 @@
+# YOLOv8 dataset config for SentinelAI surveillance classes.
+# Expected directory layout (YOLO format):
+#   <path>/images/{train,val}/*.jpg
+#   <path>/labels/{train,val}/*.txt   (class cx cy w h — normalized)
+
+path: /data/yolo            # dataset root
+train: images/train
+val: images/val
+test: images/test           # optional
+
+# Surveillance-relevant classes. Keep IDs stable across training runs.
+names:
+  0: person
+  1: bicycle
+  2: car
+  3: motorcycle
+  4: bus
+  5: truck
+  6: backpack
+  7: handbag
+  8: suitcase
+  9: weapon            # optional — only if a labelled weapon dataset is available

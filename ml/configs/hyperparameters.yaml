@@ -1,0 +1,33 @@
+# Default training hyperparameters (override via CLI flags).
+yolo:
+  model: yolov8s.pt
+  epochs: 100
+  imgsz: 640
+  batch: 16
+  optimizer: auto        # SGD | Adam | AdamW | auto
+  lr0: 0.01
+  lrf: 0.01
+  momentum: 0.937
+  weight_decay: 0.0005
+  warmup_epochs: 3.0
+  patience: 30           # early stopping
+  augment: true
+  mosaic: 1.0
+  mixup: 0.1
+  hsv_h: 0.015
+  hsv_s: 0.7
+  hsv_v: 0.4
+
+autoencoder:
+  epochs: 30
+  batch: 64
+  lr: 0.001
+  latent_dim: 128
+  img_size: 64
+
+activity:
+  epochs: 40
+  batch: 8
+  lr: 0.0005
+  clip_len: 16
+  img_size: 112
