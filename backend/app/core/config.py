@@ -46,6 +46,10 @@ class Settings(BaseSettings):
     CORS_ORIGINS: str = "http://localhost:5173,http://localhost:3000"
 
     # ---- Database ----
+    # Local dev uses SQLite (zero external services). Set USE_SQLITE=false to
+    # use PostgreSQL (Docker/production). An explicit DATABASE_URL overrides all.
+    USE_SQLITE: bool = True
+    SQLITE_PATH: str = "./sentinelai.db"
     POSTGRES_USER: str = "sentinel"
     POSTGRES_PASSWORD: str = "sentinel_secret"
     POSTGRES_DB: str = "sentinelai"
@@ -103,12 +107,21 @@ class Settings(BaseSettings):
         """CORS origins as a clean list."""
         return [o.strip() for o in self.CORS_ORIGINS.split(",") if o.strip()]
 
+    @property
+    def is_sqlite(self) -> bool:
+        """True when the active database is SQLite (affects engine pooling)."""
+        if self.DATABASE_URL:
+            return self.DATABASE_URL.startswith("sqlite")
+        return self.USE_SQLITE
+
     @computed_field  # type: ignore[misc]
     @property
     def async_database_url(self) -> str:
-        """Async SQLAlchemy (asyncpg) connection string."""
+        """Async SQLAlchemy connection string (SQLite or PostgreSQL)."""
         if self.DATABASE_URL:
             return self.DATABASE_URL
+        if self.USE_SQLITE:
+            return f"sqlite+aiosqlite:///{self.SQLITE_PATH}"
         return (
             f"postgresql+asyncpg://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}"
             f"@{self.POSTGRES_HOST}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
@@ -118,6 +131,8 @@ class Settings(BaseSettings):
     @property
     def sync_database_url(self) -> str:
         """Sync connection string (used by Alembic migrations)."""
+        if self.USE_SQLITE and not self.DATABASE_URL:
+            return f"sqlite:///{self.SQLITE_PATH}"
         return (
             f"postgresql+psycopg2://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}"
             f"@{self.POSTGRES_HOST}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}"

@@ -21,9 +21,10 @@ python-jose[cryptography]==3.3.0
 
 # ---- Database ----
 sqlalchemy[asyncio]==2.0.31
-asyncpg==0.29.0
+asyncpg==0.29.0               # PostgreSQL async driver (Docker/prod)
+aiosqlite==0.20.0            # SQLite async driver (local dev, no external DB)
 alembic==1.13.2
-psycopg2-binary==2.9.9        # for alembic sync migrations
+psycopg2-binary==2.9.9        # for alembic sync migrations (PostgreSQL)
 
 # ---- Cache / Event bus ----
 redis==5.0.7
@@ -34,9 +35,7 @@ opencv-python-headless==4.10.0.84
 numpy==1.26.4
 torch==2.3.1
 torchvision==0.18.1
-scipy==1.13.1
-lap==0.4.0                    # for ByteTrack assignment
-filterpy==1.4.5               # Kalman filter for DeepSORT
+scipy==1.13.1                 # Hungarian assignment (linear_sum_assignment) for tracking
 
 # ---- Classic ML / Anomaly ----
 scikit-learn==1.5.0

@@ -21,13 +21,22 @@ from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 from app.core.config import settings
 from app.core.logging import logger
 
-engine = create_async_engine(
-    settings.async_database_url,
-    echo=False,
-    pool_pre_ping=True,
-    pool_size=10,
-    max_overflow=20,
-)
+# SQLite and PostgreSQL need different engine options. SQLite (aiosqlite) uses a
+# single file and does not accept the QueuePool sizing args, so we branch here.
+if settings.is_sqlite:
+    engine = create_async_engine(
+        settings.async_database_url,
+        echo=False,
+        connect_args={"check_same_thread": False},
+    )
+else:
+    engine = create_async_engine(
+        settings.async_database_url,
+        echo=False,
+        pool_pre_ping=True,
+        pool_size=10,
+        max_overflow=20,
+    )
 
 AsyncSessionLocal = async_sessionmaker(
     bind=engine, class_=AsyncSession, expire_on_commit=False, autoflush=False
