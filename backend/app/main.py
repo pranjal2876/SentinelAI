@@ -66,7 +66,8 @@ async def _ensure_admin_user() -> None:
             return
         session.add(User(
             username="admin",
-            email="admin@sentinelai.local",
+            # Note: use a normal TLD — EmailStr rejects reserved names like .local.
+            email="admin@sentinelai.io",
             full_name="Administrator",
             hashed_password=hash_password("admin123"),
             role=UserRole.ADMIN,
